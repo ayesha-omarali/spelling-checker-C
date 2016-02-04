@@ -42,6 +42,11 @@ int main(int argc, char **argv){
   if(argc != 2){
     fprintf(stderr, "Specify a dictionary\n");
     return 0;
+
+    /* unit test for stringHash. */
+    void *s;
+    *s = "hi";
+    fprintf(stderr, "%s\n", stringHash(*s));
   }
   /*
    * Allocate a hash table to store the dictionary
@@ -66,11 +71,17 @@ int main(int argc, char **argv){
  * You need to define this function. void *s can be safely casted
  * to a char * (null terminated string) which is done for you here for
  * convenience.
+ q's: why pass in void *s why not pass in char *s?
+ Citation: using java's hashcode function: s[0]*31^(n-1) + s[1]*31^(n-2) + ... + s[n-1]
  */
 unsigned int stringHash(void *s){
   char *string = (char *) s;
   fprintf(stderr,"Need to define stringHash\n");
-  exit(0);
+  int i = 1, sum = 0;
+  while (*string++) {
+    sum += *string * (31^i) /* how to distinguish between what is multiplicaiton and what is a dereferencer? */
+  }
+  return sum;
 }
 
 /*
