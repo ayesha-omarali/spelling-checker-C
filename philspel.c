@@ -41,12 +41,29 @@ HashTable *dictionary;
 int main(int argc, char **argv){
   if(argc != 2){
     fprintf(stderr, "Specify a dictionary\n");
-    return 0;
 
-    /* unit test for stringHash. */
-    void *s;
-    *s = "hi";
-    fprintf(stderr, "%s\n", stringHash(*s));
+
+    /* tests for stringHash. */
+    char *s, *r, *t, *v, *w;
+    s = "hi";
+    fprintf(stderr, "the hash for %s is %d\n", s, stringHash(s));
+    r = "hello";
+    fprintf(stderr, "the hash for %s is %d\n", r, stringHash(r));
+    t = "a";
+    fprintf(stderr, "the hash for %s is %d\n", t, stringHash(t));
+    fprintf(stderr, "the hash for %s is %d\n", t, stringHash(t));
+    v = "b";
+    fprintf(stderr, "the hash for %s is %d\n", v, stringHash(v));
+
+    /* test for stringEqual. */
+    fprintf(stderr, "%s and %s : %d\n", s, r, stringEquals(s, r));
+    w = "hello";
+    fprintf(stderr, "%s and %s : %d\n", w, r, stringEquals(w, r));
+    printf(stderr, "%s and %s : %d\n", t, v, stringEquals(t, v));
+    printf(stderr, "%s and %s : %d\n", t, t, stringEquals(t, t));
+
+
+    return 0;
   }
   /*
    * Allocate a hash table to store the dictionary
@@ -71,16 +88,17 @@ int main(int argc, char **argv){
  * You need to define this function. void *s can be safely casted
  * to a char * (null terminated string) which is done for you here for
  * convenience.
- q's: why pass in void *s why not pass in char *s?
- Citation: using java's hashcode function: s[0]*31^(n-1) + s[1]*31^(n-2) + ... + s[n-1]
+ q's: why pass in void *s why not pass in char *s? the idea is its generic so you can pass in any kind of data. 
+ take the bytes of any object and treat them as characters. void *s means a pointer to anything
+ Citation: using java's hashcode function: s[0]*31^(1) + s[1]*31^(2) + ... + s[n-1]*31^(n)
  */
 unsigned int stringHash(void *s){
   char *string = (char *) s;
-  fprintf(stderr,"Need to define stringHash\n");
+  // fprintf(stderr,"Need to define stringHash\n");
   int i = 1, sum = 0;
-  while (*string++) {
-    sum += *string * (31^i) /* how to distinguish between what is multiplicaiton and what is a dereferencer? */
-  }
+  do {
+    sum += *string * (31^i); /* how to distinguish between what is multiplicaiton and what is a dereferencer? */
+  } while (*string++);
   return sum;
 }
 
@@ -92,8 +110,11 @@ unsigned int stringHash(void *s){
 int stringEquals(void *s1, void *s2){
   char *string1 = (char *) s1;
   char *string2 = (char *) s2;
-  fprintf(stderr,"Need to define stringEquals\n");
-  exit(0);
+  if (stringHash(string1) == stringHash(string2)) {
+    return 1;
+  } else return 0;
+  // fprintf(stderr,"Need to define stringEquals\n");
+  // exit(0);
 }
 
 /*
