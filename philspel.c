@@ -59,8 +59,15 @@ int main(int argc, char **argv){
     fprintf(stderr, "%s and %s : %d\n", s, r, stringEquals(s, r));
     w = "hello";
     fprintf(stderr, "%s and %s : %d\n", w, r, stringEquals(w, r));
-    printf(stderr, "%s and %s : %d\n", t, v, stringEquals(t, v));
-    printf(stderr, "%s and %s : %d\n", t, t, stringEquals(t, t));
+    // printf(stderr, "%s and %s : %d\n", t, v, stringEquals(t, v));
+    // printf(stderr, "%s and %s : %d\n", t, t, stringEquals(t, t));
+
+
+    /* test for readDictionary. */
+    dictionary = createHashTable(2255, &stringHash, &stringEquals);
+    readDictionary("sampleDictionary");
+    void *word = findData(dictionary, "sample");
+    printf("%s\n", word);
 
 
     return 0;
@@ -132,8 +139,35 @@ int stringEquals(void *s1, void *s2){
  * safely use fscanf() to read in the strings.
  */
 void readDictionary(char *filename){
-  fprintf(stderr,"Need to define readDictionary\n");
-  exit(0);
+  // fprintf(stderr,"Need to define readDictionary\n");
+  // exit(0);
+  //if file does not exist then exit
+  //read in each word and store the words in a hashtable
+  //should we have main read stdin (input) and pass the filename to this function or 
+  // should we read stdin in this function? probably should use it in main.
+  //how to store stuff in memory: Malloc returns a ptr, you can dereference that ptr to store/load stuff from that block of memory.
+  // notes: words that get read into from readDictionary and pointed to by the hash table should not be freed
+
+  //using fscanf parse input
+  //for every word, malloc a block of memory and put data into the block.
+  FILE *file;
+  file = fopen(filename, "r");
+  if( (fopen(filename, "r")) == NULL)
+  {
+    printf("No such file\n");
+    exit(1);
+  }
+  //do a while loop to loop through all the words in the input file.
+  char *str = NULL;
+  while (!feof(file)) {
+    //if reach the end of file, then return
+    str = malloc(sizeof(char) * 60);
+    fscanf(file, "%s", str);
+    //now add pointer to the hashtable
+    //use insertData
+    insertData(dictionary, (void *) str, (void *) str);
+  }
+  fclose(file);
 }
 
 
@@ -163,4 +197,49 @@ void readDictionary(char *filename){
 void processInput(){
   fprintf(stderr,"Need to define processInput\n");
   exit(0);
+
+  //two while loops
+  //getchar returns the actual character, not a pointer.
+  
+
+
+  char *p;
+  p = malloc(sizeof(char) * 60)
+  char *c;
+  c = p;
+  //why can't we just use:
+  // p = malloc(sizeof c)
+
+
+
+  //moving through a word, character by character
+  do {
+    *c = getchar();
+    c++
+    //check if the char is a letter
+    //index moving forward, refresh the index 
+    //realloc in case 
+
+  } while (isalpha((int) c));
+
+  //check the word against the dictionary
+  fprintf(stdout, "%s ", *p);
+
+  if (findData(dictionary, (void *) p) == NULL) {
+    fprintf(stdout, "[sic] ");
+  }
+
+
+  
+  // while (c != EOF)
+
+  //must read input character by character
+  //read input until reach end of a word
+  //check it's three permutations against the dictionary
+  //output word and [sic], if appropriate, to std output
+
+  //check if the character is EOF (end of file), if so exit.
+
+
+
 }
