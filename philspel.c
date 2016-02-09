@@ -66,8 +66,40 @@ int main(int argc, char **argv){
     /* test for readDictionary. */
     dictionary = createHashTable(2255, &stringHash, &stringEquals);
     readDictionary("sampleDictionary");
-    void *word = findData(dictionary, "sample");
-    printf("%s\n", word);
+    char *word = findData(dictionary, "sample");
+
+    /* test for validWord. */
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word, validWord(word));
+    // char *word2 = (char *) malloc(sizeof "dEvil");
+    word = "SAMPLE";
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word, validWord(word));   
+    char *word2 = "DEviL";
+    fprintf(stderr, "%s is in the dictionary? should return 0 --> %d\n", word2, validWord(word2));
+    char *word3 = "weIrD";
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word3, validWord(word3));
+    word3 = "Weird";
+    fprintf(stderr, "%s is in the dictionary? should return 0 --> %d\n", word3, validWord(word3));
+    word3 = "sentence";
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word3, validWord(word3));
+    word3 = "NorMal";
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word3, validWord(word3));
+    word3 = "misspelled";
+    fprintf(stderr, "%s is in the dictionary? should return 0 --> %d\n", word3, validWord(word3));
+    word3 = "is";
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word3, validWord(word3));
+    word3 = "BAD";
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word3, validWord(word3));
+    word3 = "job";
+    fprintf(stderr, "%s is in the dictionary? should return 0 --> %d\n", word3, validWord(word3));
+    word3 = "sell";
+    fprintf(stderr, "%s is in the dictionary? should return 0 --> %d\n", word3, validWord(word3));
+    word3 = "nick";
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word3, validWord(word3));
+    word3 = "NiCK";
+    fprintf(stderr, "%s is in the dictionary? should return 1 --> %d\n", word3, validWord(word3));
+    fprintf(stderr, "end of main \n");
+
+    /* test for processInput. */
 
 
     return 0;
@@ -195,39 +227,65 @@ void readDictionary(char *filename){
  * of your grade, you can no longer assume words have a bounded length.
  */
 void processInput(){
-  fprintf(stderr,"Need to define processInput\n");
-  exit(0);
+  // fprintf(stderr,"Need to define processInput\n");
+  // exit(0);
 
   //two while loops
   //getchar returns the actual character, not a pointer.
   
+  //how to find sampleInput?
+  //define file.
+  char *p = NULL;
+  char *c = NULL;
+  char t = getchar();
+  while (t != EOF) {
+    //pointer to front of word.
+    p = malloc(sizeof(char) * 60);
+    //pointer that traverses through the characters in a word.
+    c = p;
+    // *c = getchar();
 
+    //why can't we just use:
+    // p = malloc(sizeof c)
+    // do we need to use remalloc?
 
-  char *p;
-  p = malloc(sizeof(char) * 60)
-  char *c;
-  c = p;
-  //why can't we just use:
-  // p = malloc(sizeof c)
+    
 
-
-
-  //moving through a word, character by character
-  do {
-    *c = getchar();
-    c++
-    //check if the char is a letter
-    //index moving forward, refresh the index 
-    //realloc in case 
-
-  } while (isalpha((int) c));
-
-  //check the word against the dictionary
-  fprintf(stdout, "%s ", *p);
-
-  if (findData(dictionary, (void *) p) == NULL) {
-    fprintf(stdout, "[sic] ");
+    while (!isalpha((int) t)) {
+      if (t == EOF) {
+        exit(0);
+      }
+      fprintf(stdout, "%c", t);
+      fprintf(stderr, "%c", t);      
+      t = getchar();
+    }
+    while (isalpha((int) t)) {
+      *c = t;
+      t = getchar();
+      c++;
+      if (t == EOF) {
+        break;
+      }
+    }
+    //print the word
+    fprintf(stdout, "%s", p);
+    fprintf(stderr, "%s", p);    
+    //check if word is valid
+    if (!validWord(p)) {
+        fprintf(stderr, " [sic]"); //debugging
+        fprintf(stdout, " [sic]");
+    }
+    fprintf(stderr, "outer loop \n");
   }
+
+  exit(0);
+  
+
+
+
+  
+
+  
 
 
   
@@ -242,4 +300,62 @@ void processInput(){
 
 
 
+}
+
+int validWord(char *word) {
+  char *pointer = malloc(sizeof word);
+  pointer = word;
+  //check the original word against the dictionary
+  fprintf(stderr, "pointer: %s \n", pointer);
+  int found = 0;
+  if (findData(dictionary, word) != NULL) {
+    fprintf(stderr, "found ya \n");
+    found = 1;
+  } else {
+    int i = 0;
+    char lower[strlen(word)+1];
+    fprintf(stderr, "lower: %s \n", lower);
+
+    fprintf(stderr, "size: %lu \n", strlen(word));
+
+    /* leave the first character in the word unchanged. */
+    lower[i] = *pointer;
+    pointer++;
+    i++;
+    fprintf(stderr, "lower: %s \n", lower);
+
+    /* make the rest of the word lower case. */
+    for ( ; *pointer; pointer++) {
+      lower[i] = (char) tolower(*pointer);
+      i++;
+    }
+    fprintf(stderr, "after loop lower: %s \n", lower);
+
+    lower[strlen(word)] = '\0';
+    fprintf(stderr, "lower: %s \n", lower);
+    int b = (findData(dictionary, lower) != NULL);
+    fprintf(stderr, "%s is in dict: %i \n", lower, b);
+
+    // printf("%s is in the dictionary: %d \n", lower, findData(dictionary, lower) != NULL);
+    if (findData(dictionary, lower) != NULL) {
+      found = 1;
+    } else {
+      fprintf(stderr, "word: %s \n", word);
+
+      fprintf(stderr, "second else \n");
+      fprintf(stderr, "lower: %s \n", lower);
+      /* convert the first character to lower case as well so the entire word is lower case. */
+      fprintf(stderr, "lower[0]: %c \n", lower[0]);
+      lower[0] = (char) tolower(lower[0]);
+      // printf("%s is in the dictionary: %d \n", lower, findData(dictionary, lower) != NULL);
+      fprintf(stderr, "all lower: %s \n", lower);
+      // fprintf(stderr, "later \n");
+      if (findData(dictionary, lower) != NULL) {
+        fprintf(stderr, "later2 \n");
+        found = 1;
+      }
+    }
+  }
+  fprintf(stderr, "done \n");
+  return found;
 }

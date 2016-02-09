@@ -11,4 +11,6 @@ extern void readDictionary(char *dictName);
 
 extern void processInput();
 
+extern int validWord(char *word);
+
 #endif
