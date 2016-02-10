@@ -193,7 +193,7 @@ void readDictionary(char *filename){
   char *str = NULL;
   while (!feof(file)) {
     //if reach the end of file, then return
-    str = malloc(sizeof(char) * 60);
+    str = calloc(60, sizeof(char));
     fscanf(file, "%s", str);
     //now add pointer to the hashtable
     //use insertData
@@ -267,6 +267,7 @@ void processInput(){
         break;
       }
     }
+    *c = '\0';
     //print the word
     fprintf(stdout, "%s", p);
     // fprintf(stderr, "%s", p);    
@@ -275,6 +276,7 @@ void processInput(){
         // fprintf(stderr, " [sic]"); //debugging
         fprintf(stdout, " [sic]");
     }
+    free(p);
     // fprintf(stderr, "outer loop \n");
   }
 
@@ -303,8 +305,7 @@ void processInput(){
 }
 
 int validWord(char *word) {
-  char *pointer = malloc(sizeof word);
-  pointer = word;
+  char *pointer = word;
   //check the original word against the dictionary
   fprintf(stderr, "pointer: %s \n", pointer);
   int found = 0;
@@ -313,7 +314,7 @@ int validWord(char *word) {
     found = 1;
   } else {
     int i = 0;
-    char lower[strlen(word)+1];
+    char *lower = calloc(strlen(word)+1, sizeof(char));
     fprintf(stderr, "lower: %s \n", lower);
     /* leave the first character in the word unchanged. */
     lower[i] = *pointer;
@@ -334,6 +335,7 @@ int validWord(char *word) {
     fprintf(stderr, "%s is in dict: %i \n", lower, b);
 
     // printf("%s is in the dictionary: %d \n", lower, findData(dictionary, lower) != NULL);
+    
     if (findData(dictionary, lower) != NULL) {
       found = 1;
     } else {
@@ -346,6 +348,8 @@ int validWord(char *word) {
         found = 1;
       }
     }
+    free(lower);
+
   }
   fprintf(stderr, "done \n");
   return found;
