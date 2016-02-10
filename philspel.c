@@ -314,7 +314,7 @@ int validWord(char *word) {
     found = 1;
   } else {
     int i = 0;
-    char lower[strlen(word)+1];
+    char *lower = calloc(strlen(word)+1, sizeof(char));
     fprintf(stderr, "lower: %s \n", lower);
     /* leave the first character in the word unchanged. */
     lower[i] = *pointer;
@@ -335,6 +335,7 @@ int validWord(char *word) {
     fprintf(stderr, "%s is in dict: %i \n", lower, b);
 
     // printf("%s is in the dictionary: %d \n", lower, findData(dictionary, lower) != NULL);
+    
     if (findData(dictionary, lower) != NULL) {
       found = 1;
     } else {
@@ -347,6 +348,8 @@ int validWord(char *word) {
         found = 1;
       }
     }
+    free(lower);
+
   }
   fprintf(stderr, "done \n");
   return found;
