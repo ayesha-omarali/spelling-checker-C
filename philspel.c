@@ -193,7 +193,7 @@ void readDictionary(char *filename){
   char *str = NULL;
   while (!feof(file)) {
     //if reach the end of file, then return
-    str = malloc(sizeof(char) * 60);
+    str = calloc(60, sizeof(char));
     fscanf(file, "%s", str);
     //now add pointer to the hashtable
     //use insertData
