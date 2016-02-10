@@ -240,7 +240,7 @@ void processInput(){
   char t = getchar();
   while (t != EOF) {
     //pointer to front of word.
-    p = malloc(sizeof(char) * 60);
+    p = calloc(60, sizeof(char));
     //pointer that traverses through the characters in a word.
     c = p;
     // *c = getchar();
