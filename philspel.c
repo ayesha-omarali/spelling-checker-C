@@ -275,6 +275,7 @@ void processInput(){
         // fprintf(stderr, " [sic]"); //debugging
         fprintf(stdout, " [sic]");
     }
+    free(p);
     // fprintf(stderr, "outer loop \n");
   }
 
