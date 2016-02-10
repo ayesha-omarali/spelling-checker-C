@@ -182,26 +182,6 @@ void readDictionary(char *filename){
 
   //using fscanf parse input
   //for every word, malloc a block of memory and put data into the block.
-//   FILE *file;
-//   file = fopen(filename, "r");
-//   if( (fopen(filename, "r")) == NULL)
-//   {
-//     printf("No such file\n");
-//     exit(1);
-//   }
-//   //do a while loop to loop through all the words in the input file.
-//   char *str = NULL;
-//   while (!feof(file)) {
-//     //if reach the end of file, then return
-//     str = calloc(60, sizeof(char));
-//     fscanf(file, "%s", str);
-//     //now add pointer to the hashtable
-//     //use insertData
-//     insertData(dictionary, (void *) str, (void *) str);
-//   }
-//   fclose(file);
-// }
-
   FILE *file;
   file = fopen(filename, "r");
   if( (fopen(filename, "r")) == NULL)
@@ -210,34 +190,67 @@ void readDictionary(char *filename){
     exit(1);
   }
   //do a while loop to loop through all the words in the input file.
-  int size = 60;
-  char *c = NULL;
-  char *p = NULL;
-  int counter = 0;
-
-  //outer while loop loops through each word
-  while (*p == '\0' | *p == EOF) {
-    size = 60;
-    c = calloc(size, sizeof(char));
-    p = c;
-    fscanf(file, "%c", p);
-    counter = 1;
-    //loop through each character in a word
-    do {
-      if (counter == size) {
-        size = size * 2;
-        c = realloc(c, (size_t) (size * sizeof(char)));
-      }
-      p++;
-      fscanf(file, "%c", p);
-      counter++;
-    } while (*p != '\n');
-    *p = '\0';
-    //add the word to the hashtable
-    insertData(dictionary, (void *) c, (void *) c);
+  char *str = NULL;
+  while (!feof(file)) {
+    //if reach the end of file, then return
+    str = calloc(60, sizeof(char));
+    fscanf(file, "%s", str);
+    //now add pointer to the hashtable
+    //use insertData
+    insertData(dictionary, (void *) str, (void *) str);
   }
   fclose(file);
 }
+
+//   FILE *file;
+//   file = fopen(filename, "r");
+//   if( (fopen(filename, "r")) == NULL)
+//   {
+//     printf("No such file\n");
+//     exit(1);
+//   }
+//   //do a while loop to loop through all the words in the input file.
+//   int size = 60;
+//   char *c = NULL;
+//   char *p = malloc(1);
+//   int counter = 0;
+//   fprintf(stderr, "start \n");
+
+
+//   //outer while loop loops through each word
+//   while ((*p == '\0') | (*p == EOF)) {
+//     size = 60;
+//     c = calloc(size, sizeof(char));
+//     p = c;
+//     fscanf(file, "%c", p);
+//     counter = 1;
+//     fprintf(stderr, "1");
+//     //loop through each character in a word
+//     do {
+//       fprintf(stderr, "inner");
+//       if (counter == size) {
+//         size = size * 2;
+//         c = realloc(c, (size_t) (size * sizeof(char)));
+//       }
+//       p++;
+//       fscanf(file, "%c", p);
+//       fprintf(stderr, "%s", c);
+//       fprintf(stderr, "%c", *p);
+//       counter++;
+//     } while ((*p != '\n') | (*p != '\0') | (*p != EOF));
+//     fprintf(stderr, "out");
+//     if ((*p == '\0') | (*p == EOF)) {
+//       *p = '\0';
+//       insertData(dictionary, (void *) c, (void *) c);
+//       fclose(file);
+//       return;
+//     }
+//     *p = '\0';
+//     //add the word to the hashtable
+//     insertData(dictionary, (void *) c, (void *) c);
+//   }
+//   fclose(file);
+// }
 
 
 /*
