@@ -256,7 +256,7 @@ void processInput(){
         exit(0);
       }
       fprintf(stdout, "%c", t);
-      fprintf(stderr, "%c", t);      
+      // fprintf(stderr, "%c", t);      
       t = getchar();
     }
     while (isalpha((int) t)) {
@@ -269,13 +269,13 @@ void processInput(){
     }
     //print the word
     fprintf(stdout, "%s", p);
-    fprintf(stderr, "%s", p);    
+    // fprintf(stderr, "%s", p);    
     //check if word is valid
     if (!validWord(p)) {
-        fprintf(stderr, " [sic]"); //debugging
+        // fprintf(stderr, " [sic]"); //debugging
         fprintf(stdout, " [sic]");
     }
-    fprintf(stderr, "outer loop \n");
+    // fprintf(stderr, "outer loop \n");
   }
 
   exit(0);
