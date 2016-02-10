@@ -267,6 +267,7 @@ void processInput(){
         break;
       }
     }
+    *c = '\0';
     //print the word
     fprintf(stdout, "%s", p);
     // fprintf(stderr, "%s", p);    
@@ -304,8 +305,7 @@ void processInput(){
 }
 
 int validWord(char *word) {
-  char *pointer = malloc(sizeof word);
-  pointer = word;
+  char *pointer = word;
   //check the original word against the dictionary
   fprintf(stderr, "pointer: %s \n", pointer);
   int found = 0;
