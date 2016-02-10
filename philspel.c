@@ -315,24 +315,21 @@ int validWord(char *word) {
     int i = 0;
     char lower[strlen(word)+1];
     fprintf(stderr, "lower: %s \n", lower);
-
-    fprintf(stderr, "size: %lu \n", strlen(word));
-
     /* leave the first character in the word unchanged. */
     lower[i] = *pointer;
     pointer++;
     i++;
-    fprintf(stderr, "lower: %s \n", lower);
+    fprintf(stderr, "first char: %s \n", lower);
 
     /* make the rest of the word lower case. */
     for ( ; *pointer; pointer++) {
       lower[i] = (char) tolower(*pointer);
       i++;
     }
-    fprintf(stderr, "after loop lower: %s \n", lower);
+    fprintf(stderr, "rest of the word, lower: %s \n", lower);
 
     lower[strlen(word)] = '\0';
-    fprintf(stderr, "lower: %s \n", lower);
+    fprintf(stderr, "with null term. lower: %s \n", lower);
     int b = (findData(dictionary, lower) != NULL);
     fprintf(stderr, "%s is in dict: %i \n", lower, b);
 
@@ -340,18 +337,12 @@ int validWord(char *word) {
     if (findData(dictionary, lower) != NULL) {
       found = 1;
     } else {
-      fprintf(stderr, "word: %s \n", word);
-
-      fprintf(stderr, "second else \n");
-      fprintf(stderr, "lower: %s \n", lower);
       /* convert the first character to lower case as well so the entire word is lower case. */
-      fprintf(stderr, "lower[0]: %c \n", lower[0]);
       lower[0] = (char) tolower(lower[0]);
       // printf("%s is in the dictionary: %d \n", lower, findData(dictionary, lower) != NULL);
       fprintf(stderr, "all lower: %s \n", lower);
       // fprintf(stderr, "later \n");
       if (findData(dictionary, lower) != NULL) {
-        fprintf(stderr, "later2 \n");
         found = 1;
       }
     }
